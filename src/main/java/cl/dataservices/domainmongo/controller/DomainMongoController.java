@@ -23,15 +23,22 @@ public class DomainMongoController {
         return repository.findAll();
     }
 
-    /*@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Person getPersonById(@PathVariable("id") String id) {
-        return repository.findOne(id);
-    }*/
+        //TODO verificar si existe el objeto antes de realizar la asignacion
+        return repository.findById(id).get();
+    }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public void setPerson(@RequestBody Person person){
         person.setId(RandomUtil.unique());
         repository.save(person);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void deletePerson(@PathVariable String id) {
+        //TODO verificar si existe el objeto antes de realizar la asignacion para luego poder eliminar
+        repository.delete(repository.findById(id).get());
     }
 
 }
